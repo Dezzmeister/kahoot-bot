@@ -7,8 +7,9 @@ import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.concurrent.LinkedBlockingDeque;
 
-public final class ProxyList extends ThreadSafeList<String> {
+public final class ProxyList extends LinkedBlockingDeque<String> {
 
 	/**
 	 * 

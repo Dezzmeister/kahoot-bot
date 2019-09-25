@@ -1,10 +1,9 @@
 package main;
 
-import java.time.Duration;
-import java.time.temporal.ChronoUnit;
-
+import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public final class KahootGame implements Runnable {
@@ -25,11 +24,15 @@ public final class KahootGame implements Runnable {
 	
 	@Override
 	public final void run() {
-		String proxy = proxies.remove(proxies.size() - 1);
+		String proxy = proxies.removeLast();
 		
 		while (running) {
 			try {
-				waiter.withTimeout(Duration.of(10, ChronoUnit.SECONDS));
+				DriverUtils.switchProxy(jsExecutor, proxy.substring(0, proxy.indexOf(":")), Integer.parseInt(proxy.substring(proxy.indexOf(":") + 1)));
+				driver.get("kahoot.it");
+				WebElement idField = driver.findElement(By.name("gameID"));
+				idField.sendKeys(gameID + "");
+								
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
