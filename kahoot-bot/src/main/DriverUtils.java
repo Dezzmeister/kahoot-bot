@@ -3,6 +3,7 @@ package main;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Proxy;
@@ -62,8 +63,12 @@ public final class DriverUtils {
 		
 		final Proxy proxy = new Proxy().setHttpProxy(firstProxy).setSslProxy(firstProxy);
 		options.setCapability(CapabilityType.PROXY, proxy);
-		
 		options.setProfile(profile);
-		return new FirefoxDriver(options);
+		
+		final FirefoxDriver driver =  new FirefoxDriver(options);
+		driver.manage().timeouts().pageLoadTimeout(45, TimeUnit.SECONDS);
+		driver.manage().timeouts().implicitlyWait(45, TimeUnit.SECONDS);
+		
+		return driver;
 	}
 }

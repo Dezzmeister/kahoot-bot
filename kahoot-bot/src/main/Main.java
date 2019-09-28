@@ -34,5 +34,16 @@ public class Main {
 			players[i] = new KahootGame(driver, jsExecutor, gameID, names.get(i), proxies);
 			executor.execute(players[i]);
 		}
+		
+		boolean playersDone = false;
+		mainLoop: while (!playersDone) {
+			playersDone = true;
+			for (int i = 0; i < players.length; i++) {
+				if (players[i].isRunning()) {
+					playersDone = false;
+					continue mainLoop;
+				}
+			}
+		}
 	}	
 }

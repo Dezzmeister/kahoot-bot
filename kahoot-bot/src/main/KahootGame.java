@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public final class KahootGame implements Runnable {
 	private final WebDriver driver;
@@ -50,13 +51,14 @@ public final class KahootGame implements Runnable {
 				WebElement gameIDButton = driver.findElement(By.cssSelector("button[data-functional-selector=join-game-pin]"));
 				gameIDButton.click();
 				
-				WebElement nameField = driver.findElement(By.name("nickname"));
+				WebElement nameField = ExpectedConditions.presenceOfElementLocated(By.id("nickname")).apply(driver);
 				nameField.sendKeys(name);
 				
 				WebElement submitName = driver.findElement(By.cssSelector("button[data-functional-selector=join-button-username]"));
 				submitName.click();
 				
 				stop();
+				return;
 				
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -64,7 +66,11 @@ public final class KahootGame implements Runnable {
 		}
 	}
 	
-	public void stop() {
+	public final boolean isRunning() {
+		return running;
+	}
+	
+	public final void stop() {
 		running = false;
 	}	
 }
