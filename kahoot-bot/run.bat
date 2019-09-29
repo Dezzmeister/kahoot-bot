@@ -1,4 +1,4 @@
-java -jar kahoot-bot.jar proxies/0.txt names/0.txt 927545
+java -jar kahoot-bot.jar -noproxies names/0.txt 687538 -headless
 pause
 taskkill /f /im geckodriver.exe
 exit

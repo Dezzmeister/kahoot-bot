@@ -36,7 +36,6 @@ public final class DriverUtils {
 		driver.manage().deleteAllCookies();
 		driver.get("about:config");
 		jsExecutor.executeScript(SWITCH_PROXY_SCRIPT, host, port);
-		System.out.println("Switch proxy to " + host + ":" + port);
 	}
 	
 	/**
@@ -57,12 +56,16 @@ public final class DriverUtils {
 		return profile;
 	}
 	
-	public static final FirefoxDriver getDriver(final String firstProxy) {
+	public static final FirefoxDriver getDriver(final String firstProxy, final boolean headless) {
 		final FirefoxProfile profile = getStandardFirefoxProfile();
 		final FirefoxOptions options = new FirefoxOptions();
 		
-		final Proxy proxy = new Proxy().setHttpProxy(firstProxy).setSslProxy(firstProxy);
-		options.setCapability(CapabilityType.PROXY, proxy);
+		options.setHeadless(headless);
+		
+		if (firstProxy != null) {
+			final Proxy proxy = new Proxy().setHttpProxy(firstProxy).setSslProxy(firstProxy);
+			options.setCapability(CapabilityType.PROXY, proxy);
+		}
 		options.setProfile(profile);
 		
 		final FirefoxDriver driver =  new FirefoxDriver(options);
